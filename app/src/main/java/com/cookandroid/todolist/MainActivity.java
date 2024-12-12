@@ -81,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
                     "task_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "user_id INTEGER NOT NULL, " +
                     "title TEXT NOT NULL, " +
+                    "content TEXT, " +
                     "due_datetime DATETIME, " +
-                    "due_time TIME, " +
                     "priority INTEGER, " +
                     "complete_status INTEGER DEFAULT 0, " +
                     "FOREIGN KEY(user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE" +
