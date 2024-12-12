@@ -42,6 +42,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        // 데이터 새로 로드
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close(); // 이전 Cursor 닫기
+        }
+
+        cursor = dbHelper.getTasks("DefaultUser"); // 새로운 Cursor 가져오기
+        adapter.changeCursor(cursor); // 어댑터에 새 Cursor 적용
+    }
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         // Activity가 종료되면 cursor 닫기
@@ -51,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public class myDBHelper extends SQLiteOpenHelper {
+    public static class myDBHelper extends SQLiteOpenHelper {
         public myDBHelper(Context context) {
             super(context, "todoDB", null, 1);
         }

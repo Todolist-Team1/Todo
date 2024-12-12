@@ -60,6 +60,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
     }
 
+    public void changeCursor(Cursor newCursor) {
+        if (cursor != null) {
+            cursor.close(); // 이전 Cursor 닫기
+        }
+        cursor = newCursor; // 새로운 Cursor 할당
+        notifyDataSetChanged(); // UI 갱신
+    }
+
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
         TextView tvTodoItem, tvTimeStamp;
         CheckBox cbCheck;

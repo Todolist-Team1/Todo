@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">TodoList</string>
+    <string-array name="importance_levels">
+        <item>1순위</item>
+        <item>2순위</item>
+        <item>3순위</item>
+        <item>4순위</item>
+    </string-array>
 </resources>
