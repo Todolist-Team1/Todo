@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static class myDBHelper extends SQLiteOpenHelper {
         public myDBHelper(Context context) {
-            super(context, "todoDB", null, 1);
+            super(context, "todoDB", null, 2);
         }
 
         @Override
@@ -81,11 +81,11 @@ public class MainActivity extends AppCompatActivity {
                     "task_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "user_id INTEGER NOT NULL, " +
                     "title TEXT NOT NULL, " +
-                    "content TEXT, " +
-                    "due_date TEXT, " +
+                    "due_datetime DATETIME, " +
+                    "due_time TIME, " +
                     "priority INTEGER, " +
                     "complete_status INTEGER DEFAULT 0, " +
-                    "FOREIGN KEY(user_id) REFERENCES user(user_id)" +
+                    "FOREIGN KEY(user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE" +
                     ");");
              }
 
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        public void insertTask(String userName, String title, String content, String dueDate, int priority) {
+        public void insertTask(String userName, String title, String content, String dueDate, String dueTime, int priority) {
             SQLiteDatabase db = this.getWritableDatabase();
 
             // user 추가 또는 기존 user_id 조회
@@ -118,18 +118,22 @@ public class MainActivity extends AppCompatActivity {
             }
             cursor.close();
 
+            // dueDate와 dueTime을 DATETIME 형식으로 변환
+            String dueDateTime = dueDate + " " + dueTime + ":00";
+
             // task 추가
-            db.execSQL("INSERT INTO task (user_id, title, content, due_date, priority) VALUES (?, ?, ?, ?, ?);",
-                    new Object[]{userId, title, content, dueDate, priority});
+            db.execSQL("INSERT INTO task (user_id, title, content, due_datetime, priority) VALUES (?, ?, ?, ?, ?);",
+                    new Object[]{userId, title, content, dueDateTime, priority});
         }
 
         // 데이터 조회
         public Cursor getTasks(String userName) {
             SQLiteDatabase db = this.getReadableDatabase();
             return db.rawQuery(
-                    "SELECT t.task_id, t.title, t.content, t.due_date, t.priority, t.complete_status " +
+                    "SELECT t.task_id, t.title, t.content, t.due_datetime, t.priority, t.complete_status " +
                             "FROM task t INNER JOIN user u ON t.user_id = u.user_id " +
-                            "WHERE u.user_name = ?;",
+                            "WHERE u.user_name = ? " +
+                            "ORDER BY t.due_datetime ASC;",
                     new String[]{userName}
             );
         }

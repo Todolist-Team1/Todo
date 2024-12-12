@@ -32,11 +32,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         if (cursor != null && !cursor.isClosed() && cursor.moveToPosition(position)) {
             String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
-            String dueDate = cursor.getString(cursor.getColumnIndexOrThrow("due_date"));
+            String dueDateTime = cursor.getString(cursor.getColumnIndexOrThrow("due_datetime"));
             boolean isComplete = cursor.getInt(cursor.getColumnIndexOrThrow("complete_status")) == 1;
 
             holder.tvTodoItem.setText(title);
-            holder.tvTimeStamp.setText(dueDate);
+            holder.tvTimeStamp.setText(dueDateTime);
             holder.cbCheck.setChecked(isComplete);
         }
     }

@@ -11,30 +11,44 @@
     <EditText
         android:id="@+id/etTodoTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:hint="제목을 입력해주세요."
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/etDeadline"
+        app:layout_constraintBottom_toTopOf="@+id/etDueDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
 
     <EditText
-        android:id="@+id/etDeadline"
+        android:id="@+id/etDueDate"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/etTodoTitle"
-        app:layout_constraintBottom_toTopOf="@id/spImportance"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="50dp"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="날짜 선택"
+        app:layout_constraintBottom_toTopOf="@+id/etDueTime"
         app:layout_constraintEnd_toEndOf="parent"
-        android:hint="마감일 (YYYY-MM-DD)"
-        android:inputType="date" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTodoTitle" />
+
+    <EditText
+        android:id="@+id/etDueTime"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="시간 선택"
+        android:focusable="false"
+        android:clickable="true"
+        app:layout_constraintTop_toBottomOf="@+id/etDueDate"
+        app:layout_constraintBottom_toTopOf="@+id/spImportance"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <Spinner
         android:id="@+id/spImportance"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/etDeadline"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toBottomOf="@+id/etDueTime"
         app:layout_constraintBottom_toTopOf="@+id/etTodoContent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
