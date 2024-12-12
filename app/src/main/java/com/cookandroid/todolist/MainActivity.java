@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static class myDBHelper extends SQLiteOpenHelper {
         public myDBHelper(Context context) {
-            super(context, "todoDB", null, 2);
+            super(context, "todoDB", null, 3);
         }
 
         @Override
