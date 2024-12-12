@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -14,7 +15,7 @@ import java.util.Locale;
 
 public class EditTodoActivity extends AppCompatActivity {
     private EditText etTitle, etDescription, etDueDate, etDueTime;
-    private Spinner spImportance;
+    private CheckBox spImportance;
     private Button btnSave;
     private Calendar calendar;
     private MainActivity.myDBHelper dbHelper;
@@ -91,23 +92,28 @@ public class EditTodoActivity extends AppCompatActivity {
         String description = etDescription.getText().toString().trim();
         String dueDate = etDueDate.getText().toString().trim();
         String dueTime = etDueTime.getText().toString().trim();
-        String importanceStr = spImportance.getSelectedItem() != null
-                ? spImportance.getSelectedItem().toString()
-                : null;
+        boolean importanceStr = spImportance.isChecked();
 
-        if (title.isEmpty() || dueDate.isEmpty() || dueTime.isEmpty() || importanceStr == null) {
+        if (title.isEmpty() || dueDate.isEmpty() || dueTime.isEmpty()) {
             Toast.makeText(this, "모든 필드를 채워주세요. (제목, 마감일시 필수)", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // 중요도를 파싱하여 정수로 변환
+        // 중요도를 정수로 변환
         int importance;
-        try {
+
+        if (importanceStr) {
+            importance=1;
+        }else{
+            importance=0;
+        }
+
+        /*try {
             importance = parsePriority(importanceStr);
         } catch (NumberFormatException e) {
             Toast.makeText(this, "중요도를 올바르게 선택하세요.", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
 
         // SQLite 데이터 삽입
         try {
@@ -120,7 +126,7 @@ public class EditTodoActivity extends AppCompatActivity {
         }
     }
 
-    private int parsePriority(String priorityStr) {
+    /*private int parsePriority(String priorityStr) {
         switch (priorityStr) {
             case "1순위":
                 return 1;
@@ -133,5 +139,5 @@ public class EditTodoActivity extends AppCompatActivity {
             default:
                 return 0; // 기본값
         }
-    }
+    }*/
 }

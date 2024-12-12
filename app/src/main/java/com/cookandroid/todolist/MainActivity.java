@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         // RecyclerView 설정
         RecyclerView recyclerView = findViewById(R.id.rvTodoList);
         FloatingActionButton fabAdd = findViewById(R.id.fabAdd);
+        FloatingActionButton fabSort = findViewById(R.id.fabSort);
 
         dbHelper = new myDBHelper(this);
         cursor = dbHelper.getTasks("DefaultUser");
@@ -40,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        //Sort 버튼 클릭
+        fabSort.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, ListSortActivity.class);
+            startActivity(intent);
+        });
     }
     @Override
     protected void onResume() {
