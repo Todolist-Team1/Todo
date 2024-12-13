@@ -1,31 +1,42 @@
 package com.cookandroid.todolist;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.app.PictureInPictureParams;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private myDBHelper dbHelper;
     private Cursor cursor;
     private TaskAdapter adapter;
+    public  Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = this;
 
         // RecyclerView 설정
         RecyclerView recyclerView = findViewById(R.id.rvTodoList);
         FloatingActionButton fabAdd = findViewById(R.id.fabAdd);
+        FloatingActionButton fabSort = findViewById(R.id.fabSort);
 
         dbHelper = new myDBHelper(this);
         cursor = dbHelper.getTasks("DefaultUser");
@@ -37,10 +48,17 @@ public class MainActivity extends AppCompatActivity {
         // Add 버튼 클릭 시 새 작업 추가
         fabAdd.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, EditTodoActivity.class);
+            intent.putExtra("editMode", "save");
             startActivity(intent);
         });
 
+        //Sort 버튼 클릭
+        fabSort.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, ListSortActivity.class);
+            startActivity(intent);
+        });
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -62,11 +80,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public static class myDBHelper extends SQLiteOpenHelper {
+
         public myDBHelper(Context context) {
-            super(context, "todoDB", null, 2);
+            super(context, "todoDB", null, 3);
         }
+
+        public void updateTask(String userName, String title, String content, String dueDate, String dueTime, int priority, int taskId) {
+            SQLiteDatabase db = this.getWritableDatabase();;
+
+            String dueDateTime = dueDate + " " + dueTime + ":00";
+
+
+            db.execSQL("UPDATE task SET title = ?, content = ?, due_datetime = ?, priority = ? WHERE task_id = ?",
+                    new Object[]{title, content, dueDateTime, priority, taskId});
+
+            db.close();
+        }
+
+        public void deleteTask(int id) {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            db.execSQL("DELETE FROM task WHERE task_id = ?", new Object[]{id});
+            db.close();
+        }
+
 
         @Override
         public void onCreate(SQLiteDatabase db) {
@@ -89,13 +127,13 @@ public class MainActivity extends AppCompatActivity {
                     ");");
              }
 
+
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             db.execSQL("DROP TABLE IF EXISTS user");
             db.execSQL("DROP TABLE IF EXISTS task");
             onCreate(db);
         }
-
 
 
         public void insertTask(String userName, String title, String content, String dueDate, String dueTime, int priority) {
@@ -125,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
             db.execSQL("INSERT INTO task (user_id, title, content, due_datetime, priority) VALUES (?, ?, ?, ?, ?);",
                     new Object[]{userId, title, content, dueDateTime, priority});
         }
+
 
         // 데이터 조회
         public Cursor getTasks(String userName) {

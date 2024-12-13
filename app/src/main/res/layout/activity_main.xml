@@ -28,4 +28,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
+    <!--정렬 화면 띄우는 플로팅 버튼 추가-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_sort"
+        app:tint="@color/white"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@+id/fabAdd"
+        app:layout_constraintStart_toStartOf="@+id/fabAdd"
+        app:layout_constraintEnd_toEndOf="@+id/fabAdd"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
