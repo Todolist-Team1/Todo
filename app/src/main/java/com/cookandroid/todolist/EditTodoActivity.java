@@ -20,7 +20,7 @@ import android.content.Intent;
 public class EditTodoActivity extends AppCompatActivity {
     private EditText etTitle, etDescription, etDueDate, etDueTime;
 
-    private Button btnSave, btnEdit;
+    private Button btnSave, btnEdit, btnCancel;
 
     private CheckBox spImportance;
 
@@ -42,6 +42,7 @@ public class EditTodoActivity extends AppCompatActivity {
         spImportance = findViewById(R.id.spImportance);
         btnSave = findViewById(R.id.btnSave);
         btnEdit = findViewById(R.id.btnEdit);
+        btnCancel = findViewById(R.id.btnCancel);
 
         calendar = Calendar.getInstance();calendar = Calendar.getInstance();
 
@@ -57,6 +58,9 @@ public class EditTodoActivity extends AppCompatActivity {
         btnSave.setOnClickListener(v -> saveTask());
 
         btnEdit.setOnClickListener(v -> editTask());
+
+        // 취소 버튼 클릭 -> 액티비티 종료
+        btnCancel.setOnClickListener(v -> finish());
 
         Intent intent = getIntent();
         String editMode = intent.getStringExtra("editMode"); // editMode는 문자열로 받기
@@ -144,13 +148,6 @@ public class EditTodoActivity extends AppCompatActivity {
             importance=0;
         }
 
-        /*try {
-            importance = parsePriority(importanceStr);
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "중요도를 올바르게 선택하세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }*/
-
         // SQLite 데이터 삽입
         try {
             dbHelper.insertTask("DefaultUser", title, description, dueDate, dueTime, importance);
@@ -175,7 +172,6 @@ public class EditTodoActivity extends AppCompatActivity {
             return;
         }
 
-        // 중요도를 파싱하여 정수로 변환
         // 중요도를 정수로 변환
         int importance;
 
@@ -185,14 +181,6 @@ public class EditTodoActivity extends AppCompatActivity {
             importance=0;
         }
 
-        /*
-        try {
-            importance = parsePriority(importanceStr);
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "중요도를 올바르게 선택하세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }*/
-
         // SQLite 데이터 삽입
         try {
             dbHelper.updateTask("DefaultUser", title, description, dueDate, dueTime, importance, taskId);
@@ -201,21 +189,6 @@ public class EditTodoActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this, "할 일 수정 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
-        }
-    }
-
-    private int parsePriority(String priorityStr) {
-        switch (priorityStr) {
-            case "1순위":
-                return 1;
-            case "2순위":
-                return 2;
-            case "3순위":
-                return 3;
-            case "4순위":
-                return 4;
-            default:
-                return 0; // 기본값
         }
     }
 }
