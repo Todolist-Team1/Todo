@@ -23,8 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 // RecyclerView의 데이터를 관리
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
-    private static Context context;
-    private static Cursor cursor;
+    private Context context;
+    private Cursor cursor;
     private static MainActivity.myDBHelper dbHelper;
 
     public TaskAdapter(Context context, Cursor cursor) {

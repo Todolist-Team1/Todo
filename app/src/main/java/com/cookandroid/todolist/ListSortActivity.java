@@ -3,6 +3,7 @@ package com.cookandroid.todolist;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -77,7 +78,13 @@ public class ListSortActivity extends AppCompatActivity {
         rv4.setLayoutManager(new LinearLayoutManager(this));
 
         btnFin.setOnClickListener(view -> finish());
-        
+
+
+        //디버깅
+        Log.d("Cursor1 Count", "cursor1 count: " + cursor1.getCount());
+        Log.d("Cursor2 Count", "cursor2 count: " + cursor2.getCount());
+        Log.d("Cursor3 Count", "cursor3 count: " + cursor3.getCount());
+        Log.d("Cursor4 Count", "cursor4 count: " + cursor4.getCount());
         
 
     }
