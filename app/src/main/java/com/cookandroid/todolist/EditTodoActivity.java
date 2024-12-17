@@ -139,7 +139,7 @@ public class EditTodoActivity extends AppCompatActivity {
             return;
         }
 
-        // 중요도를 정수로 변환
+        // '중요한 일' 체크 여부에 따라 중요도 체크 (중요하면 1, 아니면 0)
         int importance;
 
         if (importanceStr) {
