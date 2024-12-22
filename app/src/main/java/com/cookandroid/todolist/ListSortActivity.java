@@ -15,16 +15,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ListSortActivity extends AppCompatActivity {
 
-    private MainActivity.myDBHelper dbHelper;
-    private Cursor cursor1,cursor2,cursor3,cursor4 ;
-
-    private RecyclerView rv1, rv2, rv3, rv4;
-    private TaskAdapter adapter1, adapter2, adapter3, adapter4;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_sort);
+
+        MainActivity.myDBHelper dbHelper;
+        Cursor cursor1,cursor2,cursor3,cursor4 ;
+
+        RecyclerView rv1, rv2, rv3, rv4;
+        TaskAdapter adapter1, adapter2, adapter3, adapter4;
 
         rv1 = findViewById(R.id.rvSortedList1);
         rv2 = findViewById(R.id.rvSortedList2);
